@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "story.schema.json",
+  "title": "Story",
+  "description": "Narrative setup the model receives as context. Mirrors the sections of test_1/story.txt (titulo provisional, premisa, escenario, conflicto central).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "premise", "setting", "central_conflict"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Titulo (puede ser provisional). Ej.: 'Sin evidencias'."
+    },
+    "premise": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Resumen de la situacion: quien, donde, que ocurre y que esta en juego."
+    },
+    "setting": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Lugar, momento y contexto publico/privado de la escena."
+    },
+    "central_conflict": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Enfrentamiento central y por que ambos bandos tienen parte de razon."
+    },
+    "genre": {
+      "type": "string",
+      "description": "Genero narrativo (opcional). Ej.: 'drama', 'comedia'."
+    },
+    "tone": {
+      "type": "string",
+      "description": "Tono dominante (opcional). Ej.: 'tenso', 'ironico'."
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "model_output.schema.json",
+  "title": "ModelOutput",
+  "description": "The dialogue the model must return. Self-contained (no external $ref) so it can be passed directly to Ollama's `format` parameter.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["story_title", "language", "dialogue"],
+  "properties": {
+    "story_title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Title copied from the input story."
+    },
+    "language": {
+      "type": "string",
+      "pattern": "^[a-z]{2}(-[A-Z]{2})?$",
+      "description": "Language the dialogue is written in."
+    },
+    "dialogue": {
+      "type": "array",
+      "minItems": 2,
+      "description": "Ordered turns. Alternation is not enforced by the schema, only by the prompt.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["speaker", "text"],
+        "properties": {
+          "speaker": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Must be the `name` of one of the input characters."
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Spoken words only, without the speaker name or quotation marks."
+          },
+          "stage_direction": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Optional action/gesture, equivalent to the parenthetical in '(checks his pocket watch)'."
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,68 @@
+# TEST 2
+
+SIN THINKING.
+
+
+SYSTEM_PROMPT = (
+    "You are a dialogue writer. You will receive a story and exactly two characters as JSON. "
+    "Write a dialogue between those two characters that respects their personalities, "
+    "their speech styles, the setting and the central conflict of the story. "
+    "Respond ONLY with a single JSON object that follows the provided schema: "
+    "no markdown, no code fences, no explanation. "
+    "Use the characters' exact 'name' values in the 'speaker' field. Do not invent characters. "
+    "Write the dialogue in the language given by 'output_language'. /no_think"
+)
+
+
+## Schema 
+
+{
+  "story": {
+    "title": "Sin evidencias",
+    "premise": "En una universidad de Madrid, el profesor Javier García Arcal da su clase de Auditoría Informática ante unos cuarenta alumnos. Mientras explica la importancia de las pistas de auditoría, oye un murmullo al fondo del aula y señala a Matteo Cazzola, un estudiante venezolano becado, acusándole de estar hablando. Matteo asegura que no ha dicho ni una palabra y que el profesor está alucinando. La discusión estalla delante de toda la clase. Matteo ya tiene una falta de asistencia y teme que le echen del aula, algo que podría poner en riesgo su beca. El profesor no soporta que le contradigan en público. Ninguno de los dos piensa ceder.",
+    "setting": "Aula grande de la facultad, martes a media mañana, con la clase entera presente.",
+    "central_conflict": "García Arcal exige respeto y orden, y considera una falta grave que se interrumpa su clase. Matteo exige que le acusen con pruebas, algo irónico en una asignatura donde el profesor repite que sin evidencia no hay auditoría. Ambos tienen parte de razón: el ruido existió, pero quizá no venía de Matteo.",
+    "genre": "drama",
+    "tone": "tenso"
+  },
+  "characters": [
+    {
+      "name": "Javier García Arcal",
+      "age": 58,
+      "role": "Profesor de Auditoría Informática",
+      "appearance": "Calvo, delgado, gafas de montura fina, traje gris siempre planchado. Lleva un reloj de bolsillo que mira cuando alguien le hace perder el tiempo.",
+      "personality": {
+        "traits": [
+          "Estricto, seco y metódico. Cree que el rigor es la mayor forma de respeto.",
+          "Frío en las formas, aunque no cruel.",
+          "Desconfía de las excusas y de las emociones como argumento.",
+          "Muy sensible a la falta de respeto en público: que le contradigan delante de la clase hiere su orgullo.",
+          "Convencido de que el orden y las normas son lo que sostiene el trabajo bien hecho."
+        ],
+        "hidden_fear": "Perder el control del aula y que su autoridad no valga nada."
+      },
+      "speech_style": "Formal, breve y preciso; frases secas, sin concesiones emocionales."
+    },
+    {
+      "name": "Matteo Cazzola",
+      "age": 25,
+      "role": "Estudiante becado, originario de Caracas (Venezuela)",
+      "appearance": "Moreno, pelo rizado, sudadera de la universidad, mochila cargada. Gesticula mucho.",
+      "personality": {
+        "traits": [
+          "Apasionado, expresivo y de emociones a flor de piel.",
+          "Trabajador y atento en clase, por eso le indigna que le acusen de lo contrario.",
+          "Orgulloso; le duele sentirse prejuzgado por ser extranjero.",
+          "Alterna humor, encanto y rabia en segundos.",
+          "Muy sensible a la injusticia: no soporta que le culpen sin pruebas."
+        ],
+        "hidden_fear": "Su familia en Caracas depende de que no pierda la beca."
+      },
+      "background": "Su apellido es italiano porque es nieto de inmigrantes italianos en Venezuela. Es una familia que ya ha tenido que empezar de cero una vez, y él siente que no puede fallarles.",
+      "speech_style": "Expresivo y rápido, con humor, urgencia y cambios bruscos de tono."
+    }
+  ],
+  "output_language": "es",
+  "instruction": "Genera la discusión pública tal y como estalla en clase. No la resuelvas."
+}
+
