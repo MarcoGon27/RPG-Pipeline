@@ -1,4 +1,5 @@
 import sys
+import os
 
 from dotenv import load_dotenv
 
@@ -33,7 +34,7 @@ def main():
 
     response = client.chat.completions.create(
         name="dialog-writer",
-        metadata={"story_file": history_file, "hero_file": hero_file},
+        metadata={"story_file": history_file, "hero_file": hero_file, "langfuse_user_id": os.getenv('USERNAME'),},
         model=MODEL,
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
