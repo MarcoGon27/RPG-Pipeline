@@ -1,11 +1,11 @@
 import argparse
 import os
-from datetime import datetime
+import uuid
 from pathlib import Path
 
 from stages.characters import Characters
+from stages.conflict import Conflict
 from stages.dialog import Dialog
-from stages.mission import Mission
 from stages.world import World
 
 ROOT = Path(__file__).resolve().parent
@@ -15,7 +15,7 @@ BASELINE_DIR = ROOT / "baseline"  # fixed artifacts for the stages that are not 
 STAGES = {
     "world": World,
     "characters": Characters,
-    "mission": Mission,
+    "conflict": Conflict,
     "dialog": Dialog,
 }
 
@@ -35,7 +35,7 @@ def parse_args():
         "The rest are loaded from the baseline folder.",
     )
     parser.add_argument(
-        "--run-id", default=None, help="Defaults to a timestamp, e.g. 20261121-153000."
+        "--run-id", default=None, help="Defaults to a random UUID."
     )
     args = parser.parse_args()
 
@@ -49,7 +49,7 @@ def parse_args():
 
 def main():
     args = parse_args()
-    run_id = args.run_id or datetime.now().strftime("%Y%m%d-%H%M%S")
+    run_id = args.run_id or str(uuid.uuid4())
     out_dir = ROOT / "output" / run_id
     if out_dir.exists():
         raise SystemExit(f"Run folder already exists: {out_dir}")
@@ -67,8 +67,8 @@ def main():
 
     world = get("world", idea=args.idea)
     characters = get("characters", world=world)
-    mission = get("mission", world=world, characters=characters)
-    dialog = get("dialog", world=world, characters=characters, conflict=mission)
+    conflict = get("conflict", world=world, characters=characters)
+    dialog = get("dialog", world=world, characters=characters, conflict=conflict)
 
     print(f"\nRun {run_id} saved in {out_dir} (user: {os.getenv('USERNAME')})\n")
     print(dialog)
