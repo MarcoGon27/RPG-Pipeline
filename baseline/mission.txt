@@ -1,0 +1,10 @@
+{
+  "conflict": "Mira arrives at the village to investigate the lights over the northern pass and the missing patrols. Tobren knows what is happening there and refuses to tell her, because telling her would expose the village to the crown's punishment.",
+  "conflict_genre": ["drama"],
+  "relationships": [
+    {
+      "characters": ["Mira Dalvane", "Tobren Ashfield"],
+      "description": "Royal investigator and village elder; mutual distrust, with Mira slowly suspecting Tobren is hiding something."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "dialogue": [
+    { "speaker": "Mira Dalvane", "text": "Three patrols vanished near the northern pass. Your village is the last place anyone saw them alive." },
+    { "speaker": "Tobren Ashfield", "text": "Alive is a big word, girl. Sit, have some tea. My grandmother used to say a closed mouth catches no storms." },
+    { "speaker": "Mira Dalvane", "text": "I am not here for tea. The lights over the pass started after the thaw. You have lived here fifty years. What are they?" },
+    { "speaker": "Tobren Ashfield", "text": "Lights? Old men see lights. Old men also see their youth in the fire. I would not trust either." },
+    { "speaker": "Mira Dalvane", "text": "Your hands are shaking, Elder. I will ask once more, and then I will report this village to the crown." },
+    { "speaker": "Tobren Ashfield", "text": "Report what? That a few farmers keep to themselves? Go home, scout. Some roads should stay closed." }
+  ]
+}
