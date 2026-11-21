@@ -68,10 +68,9 @@ def main():
     world = get("world", idea=args.idea)
     characters = get("characters", world=world)
     conflict = get("conflict", world=world, characters=characters)
-    dialog = get("dialog", world=world, characters=characters, conflict=conflict)
+    _ = get("dialog", world=world, characters=characters, conflict=conflict)
 
     print(f"\nRun {run_id} saved in {out_dir} (user: {os.getenv('USERNAME')})\n")
-    print(dialog)
 
 
 if __name__ == "__main__":
