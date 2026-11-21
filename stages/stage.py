@@ -10,7 +10,7 @@ class Stage:
     """Base class for a pipeline step: calls a model and saves its output as an artifact.
 
     Subclasses set the class attributes below and can override `build_prompt`
-    or `parse` when they need custom behavior.
+    when they need custom behavior.
     """
 
     name: str
@@ -30,10 +30,6 @@ class Stage:
         """Turn the inputs into the user prompt. Override for custom prompts."""
         return self.user_prompt.format(**inputs)
 
-    def parse(self, output):
-        """Post-process / validate the model output. Override for custom handling."""
-        return output
-
     def _save(self, text):
         path = self.out_dir / self.filename
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -51,7 +47,6 @@ class Stage:
             schema=json.loads(Path(self.schema_path).read_text(encoding="utf-8")),
             **self.params,
         )
-        output = self.parse(output)
         self._save(output)
         return output
 

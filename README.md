@@ -70,10 +70,10 @@ class Dialog(Stage):
 ```
 
 - The user prompt is filled with `str.format`, so literal `{` and `}` must be written as `{{` and `}}`.
-- Override `build_prompt(**inputs)` or `parse(output)` if a stage needs custom prompt building or validation.
+- Override `build_prompt(**inputs)` if a stage needs custom prompt building.
 - Inputs per stage: `world(idea)`, `characters(world)`, `conflict(world, characters)`, `dialog(world, characters, conflict)`.
 - The `world`, `characters` and `conflict` prompts are still empty (`# TODO`), so they can't run live yet.
 
 ## Langfuse
 
-Every call is traced. Traces carry the stage name, run id, live stages and the user id, and all stages of one run are grouped in a Langfuse session named after the run id (a UUID unless you pass `--run-id`).
+Every call is traced. Traces carry the stage name, live stages, user id and run id (a UUID unless you pass `--run-id`), and each trace is tagged `run:<run-id>` so you can filter all the traces of a run.
