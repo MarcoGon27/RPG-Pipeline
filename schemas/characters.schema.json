@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "characters.schema.json",
+  "title": "Characters",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["characters"],
+  "properties": {
+    "characters": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "gender", "age", "personality", "voice"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "gender": { "type": "string", "minLength": 1 },
+          "age": { "type": "integer", "minimum": 0, "maximum": 120 },
+          "personality": { "type": "string", "minLength": 1 },
+          "voice": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["tone", "speech_style"],
+            "properties": {
+              "tone": { "type": "string", "minLength": 1 },
+              "speech_style": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    }
+  }
+}

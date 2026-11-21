@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "world.schema.json",
+  "title": "World",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["narrative", "genre", "tone", "rules"],
+  "properties": {
+    "narrative": { "type": "string", "minLength": 1 },
+    "genre": { "type": "string", "enum": ["fantasy", "science_fiction", "real"] },
+    "tone": { "type": "string", "enum": ["dark", "happy", "drama"] },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}
