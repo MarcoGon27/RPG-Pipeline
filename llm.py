@@ -23,6 +23,7 @@ def run_llm(
     user_prompt,
     metadata=None,
     schema=None,
+    run_id=None,
     base_url=OLLAMA_URL,
     api_key="ollama",
     **params,  # temperature, top_p, max_tokens, reasoning_effort, ...
@@ -34,9 +35,16 @@ def run_llm(
             "json_schema": {"name": name, "schema": schema},
         }
 
+    metadata = {"langfuse_user_id": os.getenv("USERNAME"), **(metadata or {})}
+    if run_id is not None:
+        metadata.update(
+            run_id=run_id,
+            langfuse_tags=[f"run:{run_id}"],
+        )
+
     response = _get_client(base_url, api_key).chat.completions.create(  # pyright: ignore[reportCallIssue]
         name=name,
-        metadata={"langfuse_user_id": os.getenv("USERNAME"), **(metadata or {})},
+        metadata=metadata,
         model=model,
         messages=[
             {"role": "system", "content": system_prompt},

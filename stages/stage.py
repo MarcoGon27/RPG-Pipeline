@@ -46,12 +46,8 @@ class Stage:
             model=self.model,
             system_prompt=self.system_prompt,
             user_prompt=self.build_prompt(**inputs),
-            metadata={
-                **self.extra_metadata,
-                "stage": self.name,
-                "run_id": self.run_id,
-                "langfuse_session_id": self.run_id,  # groups all stages of a run in Langfuse
-            },
+            metadata={**self.extra_metadata, "stage": self.name},
+            run_id=self.run_id,
             schema=json.loads(Path(self.schema_path).read_text(encoding="utf-8")),
             **self.params,
         )
