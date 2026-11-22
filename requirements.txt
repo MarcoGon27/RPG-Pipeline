@@ -1,3 +1,4 @@
-dotenv
+python-dotenv
 langfuse
 openai
+jsonschema

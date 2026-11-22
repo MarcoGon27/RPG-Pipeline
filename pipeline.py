@@ -1,4 +1,5 @@
 import argparse
+import json
 import os
 import uuid
 from pathlib import Path
@@ -53,6 +54,13 @@ def main():
     out_dir = ROOT / "output" / run_id
     if out_dir.exists():
         raise SystemExit(f"Run folder already exists: {out_dir}")
+
+    out_dir.mkdir(parents=True)
+    # Tells the scorer which stages of this run were live (the rest are baseline copies).
+    (out_dir / "run.json").write_text(
+        json.dumps({"run_id": run_id, "live_stages": args.live, "idea": args.idea}, indent=2) + "\n",
+        encoding="utf-8",
+    )
 
     metadata = {"live_stages": ",".join(args.live), "idea": args.idea}
     stages = {name: cls(out_dir, run_id, metadata) for name, cls in STAGES.items()}

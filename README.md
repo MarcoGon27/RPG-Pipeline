@@ -10,11 +10,12 @@ idea ─▶ world ─▶ characters ─▶ conflict ─▶ dialog
 
 1. **Python dependencies** (Python 3.10+):
    ```bash
-   pip install langfuse openai python-dotenv
+   pip install -r requirements.txt
    ```
 2. **Ollama** running on `localhost:11434` with the model the stages use:
    ```bash
    ollama pull qwen3:4b
+   ollama pull nomic-embed-text           # only for the O6/O7 scoring metrics
    curl http://localhost:11434/api/tags   # should return JSON
    ```
 3. **Environment variables**: copy `.env.example` to `.env` and fill it in (Langfuse keys, and `USERNAME`, which is sent to Langfuse as the user id).
@@ -51,8 +52,9 @@ The `idea` argument is only used by the `world` stage, so it has an effect only 
 | `llm.py` | `run_llm(...)`: the single function that talks to the model (Ollama through the OpenAI client, traced by Langfuse) |
 | `stages/` | One class per stage, on top of the `Stage` base class in `stages/stage.py` |
 | `schemas/` | JSON schema for each stage's output; it constrains the model's answer |
+| `scoring/` | Objective rubric metrics (O1–O7) and the script that pushes them to Langfuse (see [Scoring](#scoring)) |
 | `baseline/` | Fixed artifacts used by the stages that aren't live (see above) |
-| `output/<run-id>/` | Artifacts of each run, one folder per run (git-ignored). It has all four files: generated ones for live stages and copies of the baseline for the rest |
+| `output/<run-id>/` | Artifacts of each run, one folder per run (git-ignored). It has all four files: generated ones for live stages and copies of the baseline for the rest, plus `run.json` with the run's live stages |
 
 ## Working on a stage
 
@@ -77,3 +79,22 @@ class Dialog(Stage):
 ## Langfuse
 
 Every call is traced. Traces carry the stage name, live stages, user id and run id (a UUID unless you pass `--run-id`), and each trace is tagged `run:<run-id>` so you can filter all the traces of a run.
+
+## Scoring
+
+Scoring is **not** part of `pipeline.py`: run it by hand after a run, once its traces are in Langfuse.
+
+```bash
+python -m scoring.score <run-id>                      # score one run
+python -m scoring.score <run-id-1> <run-id-2>         # several runs; also computes O7 (novelty) across them
+python -m scoring.score <run-id> --live dialog        # runs without run.json: say which stages were live
+python -m scoring.score <run-id> --no-embeddings      # skip O6/O7, no embedding model needed
+python -m scoring.score <run-id> --dry-run            # print the scores, send nothing
+```
+
+- Only the **live** stages are scored, as listed in `output/<run-id>/run.json` (written by `pipeline.py`). Runs made before `run.json` existed need `--live`.
+- It reads `output/<run-id>/`, computes the metrics in [`scoring/checks.py`](scoring/checks.py) and attaches them as scores to the Langfuse trace of each stage (found through the `run_id` metadata). Look for them in the trace's **Scores** tab; they can take up to ~30 seconds to appear.
+- Re-running is safe: the score id is `trace id + score name`, so scores are overwritten, not duplicated.
+- Without `--no-embeddings`, `O6`/`O7` need `nomic-embed-text` in Ollama. If it is missing the script fails **before** sending anything, so nothing shows up in Langfuse.
+- `O7` compares the same stage across runs, so pass runs made from the same input with different seeds.
+- O1 word-count targets live in `LENGTH_TARGETS` in `scoring/checks.py` (inferred from the baseline; tune them freely).
