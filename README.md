@@ -33,6 +33,23 @@ python pipeline.py --live dialog -n 5             # 5 runs in a row (run ids: ra
 python pipeline.py --live dialog -n 5 --run-id exp # 5 runs: exp-1 ... exp-5
 ```
 
+### Running specific models
+
+By default, qwen3:4b is chosen for all stages
+
+`--llm-model` selects a different default model for all stages
+
+You may also specify a specific model for a specific stage, these options take priority over the default set with `--llm-model`
+
+`--llm-model-world` selects the LLM model that will be used for the world stage
+
+`--llm-model-characters` selects the LLM model that will be used for the world stage
+
+`--llm-model-conflict` selects the LLM model that will be used for the world stage
+
+`--llm-model-dialog` selects the LLM model that will be used for the world stage
+
+
 ### Live vs baseline
 
 Every stage runs in one of two modes:
